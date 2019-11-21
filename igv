@@ -1,0 +1,2 @@
+#!/bin/bash
+../graalvm/lib/visualizer/bin/idealgraphvisualizer
