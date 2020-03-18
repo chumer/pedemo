@@ -24,9 +24,7 @@ public class Demo3 {
    
     @NodeChild("operand")
     static abstract class Abs extends Expression {
-        
-        @CompilationFinal boolean seenNegative;
-        
+
         @Specialization(guards = "operand >= 0")
         int doPositive(int operand) {
             return operand;
