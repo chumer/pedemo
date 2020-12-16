@@ -6,7 +6,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <m2e.apt.activation>jdt_apt</m2e.apt.activation>
-    <graalvm.version>19.3.0</graalvm.version>
+    <graalvm.version>20.3.0</graalvm.version>
   </properties>
   <version>SNAPSHOT</version>
   <build>
@@ -60,6 +60,18 @@
     <dependency>
       <groupId>org.graalvm.truffle</groupId>
       <artifactId>truffle-tck</artifactId>
+      <version>${graalvm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm.compiler</groupId>
+      <artifactId>compiler</artifactId>
+      <version>${graalvm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.graalvm.js</groupId>
+      <artifactId>js</artifactId>
       <version>${graalvm.version}</version>
       <scope>provided</scope>
     </dependency>

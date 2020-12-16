@@ -7,9 +7,9 @@ for opt in "$@"
         -debug)
           JAVA_ARGS="$JAVA_ARGS -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=y" ;;
         -dump)
-          JAVA_ARGS="$JAVA_ARGS -Dgraal.Dump=Truffle:1 -Dgraal.TruffleBackgroundCompilation=false -Dgraal.TraceTruffleCompilation=true" ;;
+          JAVA_ARGS="$JAVA_ARGS -Dgraal.Dump=Truffle:1 -Dpolyglot.engine.TraceCompilation=true" ;;
         -disassemble)
-          JAVA_ARGS="$JAVA_ARGS -XX:CompileCommand=print,*OptimizedCallTarget.callRoot -XX:CompileCommand=exclude,*OptimizedCallTarget.callRoot -Dgraal.TruffleBackgroundCompilation=false -Dgraal.TraceTruffleCompilation=true -Dgraal.TraceTruffleCompilationDetails=true" ;;
+          JAVA_ARGS="$JAVA_ARGS -server -XX:CompileCommand=print,*OptimizedCallTarget.profiledPERoot -XX:CompileCommand=exclude,*OptimizedCallTarget.callRoot" ;;
         -J*)
           opt=${opt:2}
           JAVA_ARGS="$JAVA_ARGS $opt" ;;
@@ -17,4 +17,4 @@ for opt in "$@"
           PROGRAM_ARGS="$PROGRAM_ARGS $opt" ;;
       esac
     done
-$GRAALVM_HOME/bin/java $JAVA_ARGS -XX:-UseJVMCIClassLoader -Dgraal.TraceTruffleCompilation=true -Dgraal.PrintGraph=Network -Dgraal.TruffleBackgroundCompilation=false -cp ./target/classes demo.Demo1 $PROGRAM_ARGS
+$GRAALVM_HOME/bin/java $JAVA_ARGS -XX:-UseJVMCIClassLoader -XX:-UseJVMCINativeLibrary -Dpolyglot.engine.TraceTransferToInterpreter=true -Dpolyglot.engine.TraceCompilation=true -Dgraal.PrintGraph=Network -Dpolyglot.engine.BackgroundCompilation=false  -cp ./target/classes demo.Demo1 $PROGRAM_ARGS
