@@ -1,1 +1,7 @@
 /target/**/*.*
+/target/
+/.factorypath
+/.classpath
+/target
+/.settings
+/.settings/org.eclipse.jdt.core.prefs

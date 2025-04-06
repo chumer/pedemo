@@ -3,7 +3,6 @@ package demo;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
-import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.RootNode;
@@ -15,19 +14,19 @@ public class Demo2 {
         abstract int execute(int[] arguments);
 
     }
-   
+
     static class Abs extends Expression {
 
         @Child Expression operand;
         @CompilationFinal boolean seenNegative;
-        
+
         Abs(Expression operand) {
             this.operand = operand;
         }
 
         @Override
         int execute(int[] arguments) {
-            int value = operand.execute(arguments); 
+            int value = operand.execute(arguments);
             if (value >= 0) {
                 return value;
             } else {
@@ -38,7 +37,7 @@ public class Demo2 {
                 return -value;
             }
         }
-        
+
     }
 
     static class Arg extends Expression {
@@ -58,12 +57,16 @@ public class Demo2 {
 
     static class Function extends RootNode {
 
-        @Child
-        private Expression body;
+        @Child private Expression body;
 
         Function(Expression body) {
             super(null);
             this.body = body;
+        }
+
+        @Override
+        public String getName() {
+            return "Demo2";
         }
 
         @Override
@@ -75,7 +78,8 @@ public class Demo2 {
     public static void main(String[] args) {
         // Sample Program: abs(args[0])
         Function sample = new Function(new Abs(new Arg(0)));
-        CallTarget target = Truffle.getRuntime().createCallTarget(sample);
+        CallTarget target = sample.getCallTarget();
+
         for (int i = 0; i < 1000; i++) {
             target.call(new int[] { 10 });
         }

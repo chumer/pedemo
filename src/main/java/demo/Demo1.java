@@ -1,7 +1,6 @@
 package demo;
 
 import com.oracle.truffle.api.CallTarget;
-import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.RootNode;
@@ -56,14 +55,19 @@ public class Demo1 {
         public Object execute(VirtualFrame frame) {
             return body.execute((int[]) frame.getArguments()[0]);
         }
+        
+        @Override
+        public String getName() {
+            return "Demo1";
+        }
     }
 
     public static void main(String[] args) {
         // Sample Program: (args[0] + args[1]) + args[2]
         Function sample = new Function(new Add(new Add(new Arg(0), new Arg(1)), new Arg(2)));
-        CallTarget target = Truffle.getRuntime().createCallTarget(sample);
+        CallTarget target = sample.getCallTarget();
         for (int i = 0; i < 1000; i++) {
-            target.call(new int[] { 10, 11, 21});
+            target.call(new int[] { 10, 11, 21 });
         }
         System.out.println("done");
     }
